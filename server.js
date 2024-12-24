@@ -65,10 +65,6 @@ async function getPerson(req, res, next) {
   next();
 }
 
-
-
-
-
 async function savePrevInfo(req, res, next) {
   console.log(req.body.from, "req.body.from");
   if (req.body.from == 918031406693 || req.body.from ==918031406692) {
@@ -293,7 +289,7 @@ function getdtmf(dtmf) {
           "1689677035869nameofbankandnbfcwavfe9b30f0-2557-11ee-a155-59e5d3b0d16d_piopiy.wav",
         max_digit: 1,
         max_retry: 2,
-        action_url: "https://z401xhnwh6.execute-api.ap-south-1.amazonaws.com/dev/dtmf",
+        action_url: "http://ec2-98-84-141-244.compute-1.amazonaws.com:3005/dtmf",
       },
     ];
   } else if (dtmf == "2") {
@@ -306,7 +302,7 @@ function getdtmf(dtmf) {
           "1689677026335NBFCandbankexplanationwavf8ec1cf0-2557-11ee-a155-59e5d3b0d16d_piopiy.wav",
         max_digit: 1,
         max_retry: 2,
-        action_url: "https://z401xhnwh6.execute-api.ap-south-1.amazonaws.com/dev/dtmf",
+        action_url: "http://ec2-98-84-141-244.compute-1.amazonaws.com:3005/dtmf",
       },
     ];
   } else {
@@ -327,7 +323,7 @@ function getdtmf2(dtmf) {
           "1689677010094requestforpaymentindayswavef3cb660-2557-11ee-a155-59e5d3b0d16d_piopiy.wav",
         max_digit: 1,
         max_retry: 2,
-        action_url: "https://z401xhnwh6.execute-api.ap-south-1.amazonaws.com/dev/dtmf",
+        action_url: "http://ec2-98-84-141-244.compute-1.amazonaws.com:3005/dtmf",
       },
     ];
   } else if (dtmf == "2") {
@@ -482,7 +478,7 @@ app.post("/cdr", async (req, res) => {
 //           "1689677035869nameofbankandnbfcwavfe9b30f0-2557-11ee-a155-59e5d3b0d16d_piopiy.wav",
 //         max_digit: 1,
 //         max_retry: 2,
-//         action_url: "https://z401xhnwh6.execute-api.ap-south-1.amazonaws.com/dev/dtmf",
+//         action_url: "http://ec2-98-84-141-244.compute-1.amazonaws.com:3005/dtmf",
 //       },
 //     ]);
 //   else {
@@ -497,7 +493,7 @@ app.post("/cdr", async (req, res) => {
 //           "1690876772203Salescallwav592d90f0-3041-11ee-9d37-33aa719412c2_piopiy.wav",
 //         max_digit: 1,
 //         max_retry: 2,
-//         action_url: "https://z401xhnwh6.execute-api.ap-south-1.amazonaws.com/dev/dtmf",
+//         action_url: "http://ec2-98-84-141-244.compute-1.amazonaws.com:3005/dtmf",
 //       },
 //     ]);
 //   }
@@ -554,7 +550,7 @@ app.post("/answerecdr", async (req, res) => {
           "1689677035869nameofbankandnbfcwavfe9b30f0-2557-11ee-a155-59e5d3b0d16d_piopiy.wav",
         max_digit: 1,
         max_retry: 2,
-        action_url: "https://z401xhnwh6.execute-api.ap-south-1.amazonaws.com/dev/dtmf",
+        action_url: "http://ec2-98-84-141-244.compute-1.amazonaws.com:3005/dtmf",
       },
     ]);
   } else if (req.body.to == 918031406694) {
@@ -593,7 +589,7 @@ app.post("/answerecdr", async (req, res) => {
           "1690876772203Salescallwav592d90f0-3041-11ee-9d37-33aa719412c2_piopiy.wav",
         max_digit: 1,
         max_retry: 2,
-        action_url: "https://z401xhnwh6.execute-api.ap-south-1.amazonaws.com/dev/dtmf",
+        action_url: "http://ec2-98-84-141-244.compute-1.amazonaws.com:3005/dtmf",
       },
     ]);
   }
@@ -629,7 +625,7 @@ app.post("/webhookwhatsapp", async(req, res)=>{//pratyush
   let result = await client1.connect();
   let db = result.db(dbName);
   let db2= result.db(dbName2);
-  // const collection1=db.collection("WhatsappDetails");
+  const collection1=db.collection("WhatsappDetails");
   // const collection2=db.collection("NBFCDatas2");
   const collection3=db.collection("WhatsappReply");
   // const collection4=db2.collection("AllWhatsappInfo");
@@ -642,30 +638,30 @@ app.post("/webhookwhatsapp", async(req, res)=>{//pratyush
     sanitizedPhoneNumber = phoneNumber.substring(2);
   }
 
-  const updateValue1 = await collection2.updateOne(
-    {
-      $or: [
-        { borrowerPhone: +sanitizedPhoneNumber },
-        { borrowerPhone: sanitizedPhoneNumber + "" },
-      ],
-    },
-    {
-      $set: {
-        whatsAppStatus: messageEvent.payload.type,
-      },
-    }
-  );
+  // const updateValue1 = await collection2.updateOne(
+  //   {
+  //     $or: [
+  //       { borrowerPhone: +sanitizedPhoneNumber },
+  //       { borrowerPhone: sanitizedPhoneNumber + "" },
+  //     ],
+  //   },
+  //   {
+  //     $set: {
+  //       whatsAppStatus: messageEvent.payload.type,
+  //     },
+  //   }
+  // );
 
-  const docToUpdate = await collection2
-    .find({
-      $or: [
-        { borrowerPhone: +sanitizedPhoneNumber },
-        { borrowerPhone: sanitizedPhoneNumber + "" },
-      ],
-    })
-    .sort({ timeStamp: -1 })
-    .limit(1)
-    .next(); // Retrieve the document
+  // const docToUpdate = await collection2
+  //   .find({
+  //     $or: [
+  //       { borrowerPhone: +sanitizedPhoneNumber },
+  //       { borrowerPhone: sanitizedPhoneNumber + "" },
+  //     ],
+  //   })
+  //   .sort({ timeStamp: -1 })
+  //   .limit(1)
+  //   .next(); // Retrieve the document
 
     const docToUpdate2 = await collection5
     .find({
@@ -679,17 +675,19 @@ app.post("/webhookwhatsapp", async(req, res)=>{//pratyush
     .next();
 
 
-  if (docToUpdate) {
-    await collection2.updateOne(
-      { _id: docToUpdate._id }, // Filter by the document's _id
-      {
-        $set: {
-          whatsAppStatus: messageEvent.payload.type,
-        },
-      }
-    );
+//   if (docToUpdate) {
+//     await collection2.updateOne(
+//       { _id: docToUpdate._id }, // Filter by the document's _id
+//       {
+//         $set: {
+//           whatsAppStatus: messageEvent.payload.type,
+//         },
+//       }
+//     );
   
-  console.log(updateValue1);
+  // console.log(updateValue1);
+  
+  
   const AddValue = await collection1.insertOne({
     ...messageEvent.payload,
     prevWhatsappInfo: {
@@ -703,7 +701,7 @@ app.post("/webhookwhatsapp", async(req, res)=>{//pratyush
     let phone = messageEvent.payload.source;
     const phoneNumber = phone;
     const extractNumber = phoneNumber.substring(2);
-    const getDetails = await collection2.findOne({
+    const getDetails = await collection5.findOne({
       borrowerPhone: extractNumber,
     });
     // Create a new Date object with the timestamp
@@ -731,7 +729,7 @@ app.post("/webhookwhatsapp", async(req, res)=>{//pratyush
     });
   }
   res.status(200).send("Thank you for reaching out! Our team will get back to you soon.");
-}
+
   if(docToUpdate2){
     await collection5.updateOne(
       { _id: docToUpdate2._id }, // Filter by the document's _id
@@ -742,108 +740,17 @@ app.post("/webhookwhatsapp", async(req, res)=>{//pratyush
       }
     );
 
-    const checkExist = await collection4.findOne({docTimeStamp:docToUpdate2?.timeStamp,destination:messageEvent?.payload?.destination,Status:messageEvent?.payload?.type});
-    if(!checkExist){
-      await collection4.insertOne({
-        docTimeStamp:docToUpdate2?.timeStamp,
-        Status:messageEvent?.payload?.type,
-        destination:messageEvent?.payload?.destination,
-        timeStamp:messageEvent?.timestamp
-      });
-    }
-
-    // await collection4.insertOne({
-    //   docTimeStamp:docToUpdate2?.timeStamp,
-    //   Status:messageEvent?.payload?.type,
-    //   destination:messageEvent?.payload?.destination,
-    //   timeStamp:messageEvent?.timestamp
-    // });
+    // const checkExist = await collection4.findOne({docTimeStamp:docToUpdate2?.timeStamp,destination:messageEvent?.payload?.destination,Status:messageEvent?.payload?.type});
+    // if(!checkExist){
+    //   await collection4.insertOne({
+    //     docTimeStamp:docToUpdate2?.timeStamp,
+    //     Status:messageEvent?.payload?.type,
+    //     destination:messageEvent?.payload?.destination,
+    //     timeStamp:messageEvent?.timestamp
+    //   });
+    // }
   }
 });
-
-// app.post("/emailwebhook", async(req, res)=>{
-//   try {
-//     const response = req.body;
-//     let result = await client1.connect();
-//     let db = result.db(dbName);
-//     // const collection=db.collection("usersData");
-//     const collectionNBFC= db.collection("NBFCDatas2");
-//     const collection1=db.collection("DetailEmailInformation");
-//     const EmailCollection=db.collection("EmailData");
-//     // const collection = await SaveInCollection("usersData","usersDetails");
-//     // const collectionNBFC = await SaveInCollection("NBFCDatas2","usersDetails");
-//     // const collection1 = await SaveInCollection("DetailEmailInformation","usersDetails");
-//     // const EmailCollection= await SaveInCollection("EmailData","usersDetails");
-//     //Email taken from webhook
-//     let email = response.email;
-//     // Map response.event to status
-//     let status;
-//     if (
-//       ["opened", "unique_opened", "unsubscribed"].includes(
-//         response.event
-//       )
-//     ) {
-//       status = "Read";
-//     } else if (response.event === "delivered"|| response.event==="request") {
-//       status = "Delivered";
-//     } else {
-//       status = "Undelivered";
-//     }
-//     // const updateValue1 = await collection.updateOne(
-//     //   { email: email },
-//     //   { 
-//     //     $set: {
-//     //       prevBrevoInfo: {
-//     //         Status: status,
-//     //         Subject: response.subject,
-//     //         DateTime: response.date,
-//     //         templateID: response.template_id
-//     //       }
-//     //     }
-//     //   }
-//     // );
-//     const AddValue = await collection1.insertOne({
-//       prevBrevoInfo: {
-//         Email: response.email,
-//         Status: response.event,
-//         Subject: response.subject,
-//         DateTime: response.date,
-//         templateID: response.template_id
-//       }
-//     });
-//     const addingToEmail=await EmailCollection.updateOne(
-//       { email: email },
-//       {
-//         $set: {
-//          Status:response.event
-//         }
-//     });
-//     const docToUpdate = await collectionNBFC.find({ borrowerEmail: email })
-//       .sort({ timeStamp: -1 })
-//       .limit(1)
-//       .next(); 
-
-//     if(docToUpdate){
-//     const updateValue = await collectionNBFC.updateOne(
-//       { _id: docToUpdate._id  },//1234
-//       {
-//         $set: {
-//           prevBrevoInfo: {
-//             Status: status,
-//             Subject: response.subject,
-//             DateTime: response.date,
-//             templateID: response.template_id
-//           }
-//         }
-//       }
-//     );
-//     }
-//   } catch (error) {
-//     console.error("Error handling webhook:", error.message);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
-
 
 app.post("/emailwebhook", async(req, res)=>{
   try {
@@ -853,7 +760,7 @@ app.post("/emailwebhook", async(req, res)=>{
     let db2= result.db(dbName2);
     //Database Connection
     // const collectionNBFC= db.collection("NBFCDatas2");
-    // const collection1=db.collection("DetailEmailInformation");
+    const collection1=db.collection("DetailEmailInformation");
     // const EmailCollection=db.collection("EmailData");
     // const collection4=db2.collection("AllEmailInfo");
     const collectionDispute=db2.collection("disputeUploads");
@@ -881,39 +788,39 @@ app.post("/emailwebhook", async(req, res)=>{
         templateID: response.template_id
       }
     });
-    const addingToEmail=await EmailCollection.updateOne(
-      { email: email },
-      {
-        $set: {
-         Status:response.event
-        }
-    });
+    // const addingToEmail=await EmailCollection.updateOne(
+    //   { email: email },
+    //   {
+    //     $set: {
+    //      Status:response.event
+    //     }
+    // });
     //Data Finding in NBFCDatas2 to store status
-    const docToUpdate = await collectionNBFC.find({ borrowerEmail: email })
-      .sort({ timeStamp: -1 })
-      .limit(1)
-      .next();
+    // const docToUpdate = await collectionNBFC.find({ borrowerEmail: email })
+    //   .sort({ timeStamp: -1 })
+    //   .limit(1)
+    //   .next();
     //Data Finding in disputeUploads to store status
     const docToUpdate1 = await collectionDispute.find({ borrowerEmail: email })
       .sort({ timeStamp: -1 })
       .limit(1)
       .next();
    //If Data finds we store status inside it
-    if(docToUpdate){
-    const updateValue = await collectionNBFC.updateOne(
-      { _id: docToUpdate._id  },//1234
-      {
-        $set: {
-          prevBrevoInfo: {
-            Status: status,
-            Subject: response.subject,
-            DateTime: response.date,
-            templateID: response.template_id
-          }
-        }
-      }
-    );
-    }
+    // if(docToUpdate){
+    // const updateValue = await collectionNBFC.updateOne(
+    //   { _id: docToUpdate._id  },//1234
+    //   {
+    //     $set: {
+    //       prevBrevoInfo: {
+    //         Status: status,
+    //         Subject: response.subject,
+    //         DateTime: response.date,
+    //         templateID: response.template_id
+    //       }
+    //     }
+    //   }
+    // );
+    // }
     //If Data finds we store status inside it
     if(docToUpdate1){
       const updateValue1 = await collectionDispute.updateOne(
@@ -930,15 +837,15 @@ app.post("/emailwebhook", async(req, res)=>{
         }
       );
       //Store inside AllEmailInfo collection
-      await collection4.insertOne({
-        docTimeStamp:docToUpdate1.timeStamp,
-        prevBrevoInfo: {
-          Status: status,
-          Subject: response.subject,
-          DateTime: response.date,
-          templateID: response.template_id
-        }
-      })
+      // await collection4.insertOne({
+      //   docTimeStamp:docToUpdate1.timeStamp,
+      //   prevBrevoInfo: {
+      //     Status: status,
+      //     Subject: response.subject,
+      //     DateTime: response.date,
+      //     templateID: response.template_id
+      //   }
+      // })
       }
   } catch (error) {
     console.error("Error handling webhook:", error.message);
@@ -982,8 +889,8 @@ app.post("/NewWebhookEmail", async(req, res)=>{
   }
 });
 
-const port = process.env.PORT | 5000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
-// module.exports.handler = serverless(app);
+// const port = process.env.PORT | 5000;
+// app.listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// });
+module.exports.handler = serverless(app);
