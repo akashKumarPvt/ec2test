@@ -12,9 +12,6 @@ jobs:
     - name: Check Out Repo
       uses: actions/checkout@v2
 
-    - name: Prepare Dockerfile
-      run: ./Dockerfile
-
     - name: Log in to Docker Hub
       uses: docker/login-action@v1
       with:
@@ -31,19 +28,3 @@ jobs:
 
     - name: Verify Pushed Image
       run: docker pull akashpvt/server1:latest
-
-
-
-
-
-    - name: Deploy to EC2
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          sudo docker pull akashpvt/server1:latest
-          sudo docker stop server1 || true
-          sudo docker rm server1 || true
-          sudo docker run -d --name server1 -p 3005:5000 akashpvt/server1:latest
