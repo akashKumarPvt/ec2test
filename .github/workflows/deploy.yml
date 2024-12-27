@@ -29,9 +29,6 @@ jobs:
     - name: Verify Pushed Image
       run: docker pull akashpvt/server1:latest
 
-
-
-      
     - name: Deploy to EC2
       uses: appleboy/ssh-action@master
       with:
